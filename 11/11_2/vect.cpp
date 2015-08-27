@@ -9,7 +9,7 @@ using std::cout;
 namespace VECTOR
 {
 	const double Rad_to_deg = 57.2957795130823;
-
+/*
 	void Vector::set_mag()
 	{	
 		mag = sqrt(x * x + y * y);
@@ -27,18 +27,31 @@ namespace VECTOR
 			ang = atan2(y, x);
 		}
 	}
+*/
+	double Vector::magval() const
+	{
+		return sqrt(x * x + y * y);
+	}
+	double Vector::angval() const
+	{
+		if ( x == 0.0 && y == 0.0 )
+		{
+			return 0.0;
+		}
+		return atan2(y, x);
+	}
 	void Vector::set_x()
 	{
-		x = mag * cos(ang);
+		x = magval() * cos(angval());
 	}
 	void Vector::set_y()
 	{
-		y = mag * sin(ang);
+		y = magval() * sin(angval());
 	}
 
 	Vector::Vector()
 	{
-		x = y = mag = ang = 0.0;
+		x = y = 0.0;
 		mode = 'r';
 	}
 	Vector::Vector(double n1, double n2, char form)
@@ -48,21 +61,17 @@ namespace VECTOR
 		{
 			x = n1;
 			y = n2;
-			set_mag();
-			set_ang();
 		}
-		else if (form = 'p')
+		else if ( form == 'p')
 		{
-			mag = n1;
-			ang = n2;
-			set_x();
-			set_y();
+			x = n1 * cos(n2);
+			y = n1 * sin(n2);
 		}
 		else
 		{
 			cout << "Incorrect form\n";
 			cout << "vector set to 0\n";
-			x = y = mag = ang = 0.0;
+			x = y = 0.0;
 			mode = 'r';
 		}
 	}
@@ -73,21 +82,17 @@ namespace VECTOR
 		{
 			x = n1;
 			y = n2;
-			set_mag();
-			set_ang();
 		}
-		else if (form = 'p')
+		else if ( form == 'p')
 		{
-			mag = n1;
-			ang = n2 / Rad_to_deg;
-			set_x();
-			set_y();
+			x = n1 * cos(n2);
+			y = n1 * sin(n2);
 		}
 		else
 		{
 			cout << "Incorrect form\n";
 			cout << "vector set to 0\n";
-			x = y = mag = ang = 0.0;
+			x = y = 0.0;
 			mode = 'r';
 		}
 	}
@@ -95,13 +100,13 @@ namespace VECTOR
 	Vector::~Vector()
 	{
 	}
-	void Vector::polar_mode()
-	{
-		mode = 'p';
-	}
 	void Vector::rect_mode()
 	{
 		mode = 'r';
+	}
+	void Vector::polar_mode()
+	{
+		mode = 'p';
 	}
 
 	Vector Vector::operator+(const Vector & b) const
@@ -139,7 +144,7 @@ namespace VECTOR
 		}
 		else if (v.mode == 'p')
 		{
-			of << "(m,a) = (" << v.mag << ", " << v.ang * Rad_to_deg << ")";
+			of << "(m,a) = (" << v.magval() << ", " << v.angval() << ")";
 		}
 		else
 		{
@@ -155,7 +160,7 @@ namespace VECTOR
 		}
 		else if (v.mode == 'p')
 		{
-			os << "(m,a) = (" << v.mag << ", " << v.ang * Rad_to_deg << ")";
+			os << "(m,a) = (" << v.magval() << ", " << v.angval() << ")";
 		}
 		else
 		{

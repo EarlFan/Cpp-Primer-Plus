@@ -10,12 +10,8 @@ namespace VECTOR
 	private:
 		double x;
 		double y;
-		double mag;
-		double ang;
 		char mode;
 
-		void set_mag();
-		void set_ang();
 		void set_x();
 		void set_y();
 
@@ -26,10 +22,10 @@ namespace VECTOR
 		~Vector();
 		double xval() const {return x;};
 		double yval() const {return y;};
-		double magval() const {return mag;};
-		double angval() const {return ang;};
-		void polar_mode();
+		double magval() const;
+		double angval() const;
 		void rect_mode();
+		void polar_mode();
 
 		Vector operator+(const Vector &b) const;
 		Vector operator-(const Vector &b) const;
