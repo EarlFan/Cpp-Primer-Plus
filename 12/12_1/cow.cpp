@@ -30,7 +30,7 @@ Cow::Cow(const Cow &c)
 
 Cow::~Cow()
 {
-	delete hobby;
+	delete [] hobby;
 }
 
 Cow &Cow::operator=(const Cow &c)
