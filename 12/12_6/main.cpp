@@ -18,7 +18,8 @@ int main()
 
 	std::srand(std::time(0));
 
-	Queue line(1000);
+	Queue line1(1000);
+	Queue line2(1000);
 
 	int CpH = 1;
 	Item temp;
@@ -37,9 +38,9 @@ int main()
  	
 		for (int cycle = 0; cycle < 10000; ++cycle)
 		{	
-			if (newcustomer( 60/(double)CpH ) )
+			if (newcustomer( 60/(double) CpH ) )
 			{
-				if (line.isfull())
+				if (line1.isfull() && line2.isfull())
 				{
 					++turnaways;
 				}
@@ -47,12 +48,27 @@ int main()
 				{
 					++customers;
 					temp.set(cycle);
-					line.enqueue(temp);
+					if (line1.queuecount() <= line2.queuecount())
+					{
+						line1.enqueue(temp);
+					}
+					else
+					{
+						line2.enqueue(temp);
+					}
 				}
 			}
-			if (wait_time <= 0 && !line.isempty())
+			if (wait_time <= 0 && !line1.isempty())
 			{
-				line.dequeue(temp);
+				line1.dequeue(temp);
+				wait_time = temp.ptime();
+				line_wait += cycle - temp.when();
+				++served;
+			}
+			if (wait_time <= 0 && !line2.isempty())
+
+			{
+				line2.dequeue(temp);
 				wait_time = temp.ptime();
 				line_wait += cycle - temp.when();
 				++served;
